@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 
-const API_BASE = "http://localhost:5002";
+const API_BASE = "https://najah-1.onrender.com";
 const ITEMS_PER_PAGE = 6;
 
 export default function Questions() {

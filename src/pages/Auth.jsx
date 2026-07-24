@@ -21,8 +21,8 @@
 //     try {
 //       setLoading(true);
 //       const url = isLogin
-//         ? "http://localhost:5002/api/admin/login"
-//         : "http://localhost:5002/api/admin/register";
+//         ? "https://najah-1.onrender.com/api/admin/login"
+//         : "https://najah-1.onrender.com/api/admin/register";
 
 //       const res = await axios.post(url, form);
 
@@ -355,7 +355,7 @@ const Auth = () => {
 
     try {
       setLoading(true);
-      const url = "http://localhost:5002/api/admin/login";
+      const url = "https://najah-1.onrender.com/api/admin/login";
       const res = await axios.post(url, form);
 
       if (res.data.data.token) {

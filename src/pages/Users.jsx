@@ -1,7 +1,7 @@
 // import React, { useEffect, useState } from "react";
 // import axios from "axios";
 
-// const API = "http://localhost:5002/api/users";
+// const API = "https://najah-1.onrender.com/api/users";
 
 // const getInitials = (name) =>
 //   name?.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2);
@@ -158,7 +158,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const API = "http://localhost:5002/api/users";
+const API = "https://najah-1.onrender.com/api/users";
 
 const getInitials = (name) =>
   name?.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const API_BASE = "http://localhost:5002";
+const API_BASE = "https://najah-1.onrender.com";
 
 export default function AdminDashboard() {
   const [attendanceStats, setAttendanceStats] = useState(null);

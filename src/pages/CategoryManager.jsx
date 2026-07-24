@@ -15,7 +15,7 @@ const CategoryManager = () => {
   const [editParent, setEditParent] = useState("");
   const [showAddSubcategory, setShowAddSubcategory] = useState(null); // Which category to add subcategory to
 
-  const BASE_URL = "http://localhost:5002/api";
+  const BASE_URL = "https://najah-1.onrender.com/api";
 
   const getToken = () => localStorage.getItem("token");
   const authConfig = () => ({

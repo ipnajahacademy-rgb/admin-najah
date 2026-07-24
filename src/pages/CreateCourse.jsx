@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:5002/api';
+const BASE_URL = 'https://najah-1.onrender.com/api';
 
 // ==================== AUTH HELPERS ====================
 const getToken = () => {

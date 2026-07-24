@@ -18,7 +18,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
-const BASE_URL = "http://localhost:5002/api";
+const BASE_URL = "https://najah-1.onrender.com/api";
 const getToken = () => localStorage.getItem("token");
 const authConfig = () => ({ headers: { Authorization: `Bearer ${getToken()}` } });
 
