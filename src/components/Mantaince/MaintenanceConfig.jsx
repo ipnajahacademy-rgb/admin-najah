@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { AlertTriangle, CheckCircle2, Loader2, X } from "lucide-react";
 
 // Point this at your backend (see maintenance.routes.js)
 const API_URL = "https://najah-1.onrender.com/maintenance";
@@ -74,7 +73,7 @@ export default function MaintenanceConfig() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-16 text-gray-500">
-        <Loader2 className="h-5 w-5 animate-spin mr-2" />
+        <span className="h-5 w-5 mr-2 rounded-full border-2 border-gray-300 border-t-gray-600 animate-spin" />
         Loading maintenance config...
       </div>
     );
@@ -151,7 +150,9 @@ export default function MaintenanceConfig() {
             {status === "success" ? (
               <>
                 <div className="flex items-center gap-2 text-green-600 mb-2">
-                  <CheckCircle2 className="h-5 w-5" />
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-green-100 text-green-600 text-xs font-bold">
+                    ✓
+                  </span>
                   <h3 className="text-base font-semibold text-gray-900">Config updated</h3>
                 </div>
                 <p className="text-sm text-gray-600 mb-4">
@@ -169,7 +170,9 @@ export default function MaintenanceConfig() {
             ) : status === "error" ? (
               <>
                 <div className="flex items-center gap-2 text-red-600 mb-2">
-                  <AlertTriangle className="h-5 w-5" />
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-red-100 text-red-600 text-xs font-bold">
+                    !
+                  </span>
                   <h3 className="text-base font-semibold text-gray-900">Update failed</h3>
                 </div>
                 <p className="text-sm text-gray-600 mb-4">{errorText}</p>
@@ -192,8 +195,12 @@ export default function MaintenanceConfig() {
               <>
                 <div className="flex items-start justify-between mb-2">
                   <h3 className="text-base font-semibold text-gray-900">Confirm update</h3>
-                  <button onClick={closeModal} className="text-gray-400 hover:text-gray-600">
-                    <X className="h-4 w-4" />
+                  <button
+                    onClick={closeModal}
+                    className="text-gray-400 hover:text-gray-600 text-lg leading-none"
+                    aria-label="Close"
+                  >
+                    ×
                   </button>
                 </div>
                 <p className="text-sm text-gray-600 mb-4">
@@ -213,7 +220,9 @@ export default function MaintenanceConfig() {
                     disabled={saving}
                     className="inline-flex items-center rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 disabled:opacity-50"
                   >
-                    {saving && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
+                    {saving && (
+                      <span className="h-4 w-4 mr-2 rounded-full border-2 border-white/40 border-t-white animate-spin" />
+                    )}
                     Confirm
                   </button>
                 </div>
