@@ -15,6 +15,7 @@ import AllTeacher from "../components/Teacher/AllTeachers";
 import AllAttendance from "../components/Teacher/Attendence";
 import TeacherLeaves from "../components/Teacher/TeacherLeaves";
 import AdminDashboard from "../components/Dashboard/AdminDashboard";
+import MaintenanceConfig from "../components/Mantaince/MaintenanceConfig";
 
 // Placeholder components for nested sub-items.
 // Replace these with real imports once you build the actual pages,
@@ -63,6 +64,7 @@ const AdminLayout = () => {
   const navItems = [
     { label: "Dashboard", icon: "📊", color: "#f39c12" },
     { label: "Courses", icon: "📚", color: "#3498db" },
+    { label: "Maintenance", icon: "🔧", color: "#3498db" },
     { label: "Users", icon: "👥", color: "#2ecc71" },
     { label: "Categories", icon: "📂", color: "#9b59b6" },
     { label: "Sections", icon: "📝", color: "#e67e22" },
@@ -122,6 +124,8 @@ const AdminLayout = () => {
         return <CategoryManager />;
       case "Courses":
         return <CreateCourse />;
+      case "Maintenance":
+        return <MaintenanceConfig />;
       case "Sections":
         return <SectionManager />;
 
