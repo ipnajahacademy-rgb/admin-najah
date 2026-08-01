@@ -20,6 +20,11 @@ const HelpSupport = () => {
     const [loadingStudents, setLoadingStudents] = useState(false);
     const [search, setSearch] = useState("");
 
+    // Edit student
+    const [editId, setEditId] = useState(null);
+    const [form, setForm] = useState({ fullName: "", email: "", password: "" });
+    const [savingEdit, setSavingEdit] = useState(false);
+
     // =========================================================
     // CONVERSATION (merged replies for the selected student)
     // =========================================================
@@ -78,6 +83,86 @@ const HelpSupport = () => {
     useEffect(() => {
         fetchStudents();
     }, []);
+
+    // =========================================================
+    // EDIT STUDENT
+    // PUT /api/users/:id
+    // =========================================================
+
+    const startEdit = (student) => {
+        setEditId(student._id);
+        setForm({
+            fullName: student.fullName || "",
+            email: student.email || "",
+            password: "",
+        });
+        setError("");
+    };
+
+    const cancelEdit = () => {
+        setEditId(null);
+        setForm({ fullName: "", email: "", password: "" });
+    };
+
+    const updateStudent = async (e) => {
+        e.preventDefault();
+
+        try {
+            setSavingEdit(true);
+            setError("");
+
+            const payload = { fullName: form.fullName, email: form.email };
+            if (form.password.trim()) payload.password = form.password;
+
+            await axios.put(
+                `${API_BASE_URL}/users/${editId}`,
+                payload,
+                getConfig()
+            );
+
+            cancelEdit();
+            await fetchStudents();
+        } catch (err) {
+            console.error("Update student error:", err);
+            setError(
+                err.response?.data?.message || "Failed to update student."
+            );
+        } finally {
+            setSavingEdit(false);
+        }
+    };
+
+    // =========================================================
+    // DELETE STUDENT
+    // DELETE /api/users/:id
+    // =========================================================
+
+    const deleteStudent = async (student) => {
+        if (!window.confirm(`Delete ${student.fullName}?`)) return;
+
+        try {
+            setError("");
+
+            await axios.delete(
+                `${API_BASE_URL}/users/${student._id}`,
+                getConfig()
+            );
+
+            if (selectedStudent?._id === student._id) {
+                setSelectedStudent(null);
+                setMessages([]);
+            }
+
+            if (editId === student._id) cancelEdit();
+
+            await fetchStudents();
+        } catch (err) {
+            console.error("Delete student error:", err);
+            setError(
+                err.response?.data?.message || "Failed to delete student."
+            );
+        }
+    };
 
     // =========================================================
     // GET STUDENT CONVERSATION (merges every reply into one thread)
@@ -217,6 +302,59 @@ const HelpSupport = () => {
                         />
                     </div>
 
+                    {/* Edit Student Form */}
+                    {editId && (
+                        <form
+                            onSubmit={updateStudent}
+                            className="space-y-2 border-b border-slate-200 bg-slate-50 px-4 py-3"
+                        >
+                            <p className="text-xs font-semibold text-slate-600">
+                                Edit Student
+                            </p>
+                            <input
+                                value={form.fullName}
+                                onChange={(e) =>
+                                    setForm({ ...form, fullName: e.target.value })
+                                }
+                                placeholder="Full name"
+                                className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-700 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                            />
+                            <input
+                                value={form.email}
+                                onChange={(e) =>
+                                    setForm({ ...form, email: e.target.value })
+                                }
+                                placeholder="Email"
+                                className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-700 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                            />
+                            <input
+                                type="password"
+                                value={form.password}
+                                onChange={(e) =>
+                                    setForm({ ...form, password: e.target.value })
+                                }
+                                placeholder="New password (optional)"
+                                className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-700 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                            />
+                            <div className="flex gap-2 pt-1">
+                                <button
+                                    type="submit"
+                                    disabled={savingEdit}
+                                    className="flex-1 rounded-lg bg-indigo-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:bg-slate-300"
+                                >
+                                    {savingEdit ? "Saving..." : "Save"}
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={cancelEdit}
+                                    className="flex-1 rounded-lg border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    )}
+
                     {/* Student List */}
                     <div className="h-[calc(100%-129px)] overflow-y-auto">
                         {loadingStudents ? (
@@ -281,16 +419,32 @@ const HelpSupport = () => {
                                             </p>
                                         </div>
 
-                                        {/* Reply button - right side */}
-                                        <button
-                                            type="button"
-                                            onClick={() =>
-                                                getStudentConversation(student)
-                                            }
-                                            className="flex-shrink-0 rounded-lg bg-indigo-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-indigo-700 active:scale-[0.98]"
-                                        >
-                                            Reply
-                                        </button>
+                                        {/* Actions - right side */}
+                                        <div className="flex flex-shrink-0 items-center gap-1.5">
+                                            <button
+                                                type="button"
+                                                onClick={() => startEdit(student)}
+                                                className="rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-600 transition hover:border-indigo-500 hover:text-indigo-600"
+                                            >
+                                                Edit
+                                            </button>
+                                            <button
+                                                type="button"
+                                                onClick={() => deleteStudent(student)}
+                                                className="rounded-lg border border-red-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-red-600 transition hover:bg-red-50"
+                                            >
+                                                Delete
+                                            </button>
+                                            <button
+                                                type="button"
+                                                onClick={() =>
+                                                    getStudentConversation(student)
+                                                }
+                                                className="rounded-lg bg-indigo-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-indigo-700 active:scale-[0.98]"
+                                            >
+                                                Reply
+                                            </button>
+                                        </div>
                                     </div>
                                 );
                             })

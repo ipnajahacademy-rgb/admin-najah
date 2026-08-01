@@ -71,7 +71,7 @@ const AdminLayout = () => {
     { label: "Users", icon: "👥", color: "#2ecc71" },
     { label: "Categories", icon: "📂", color: "#9b59b6" },
     { label: "Sections", icon: "📝", color: "#e67e22" },
-    { label: "Help & Support", icon: "⚙️", color: "#95a5a6" },
+    // { label: "Help & Support", icon: "⚙️", color: "#95a5a6" },
     {
   label: "Teacher",
   icon: "👨‍🏫",
@@ -146,8 +146,8 @@ const AdminLayout = () => {
       // Exam
       case "All Exams":
         return <ExamQuestionsOperations/>;
-        case "Help & Support":
-        return <HelpSupport />;
+        // case "Help & Support":
+        // return <HelpSupport />;
       case "Exam Attempt":
         return <ExamAttemptOperations/>;
       case "Exam Purchase":
