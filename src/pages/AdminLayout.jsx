@@ -17,6 +17,7 @@ import TeacherLeaves from "../components/Teacher/TeacherLeaves";
 import AdminDashboard from "../components/Dashboard/AdminDashboard";
 import MaintenanceConfig from "../components/Mantaince/MaintenanceConfig";
 import CreateNotification from "../components/Notification/Notification";
+import HelpSupport from "../components/Helpsuport/HelpSupport";
 
 // Placeholder components for nested sub-items.
 // Replace these with real imports once you build the actual pages,
@@ -70,6 +71,7 @@ const AdminLayout = () => {
     { label: "Users", icon: "👥", color: "#2ecc71" },
     { label: "Categories", icon: "📂", color: "#9b59b6" },
     { label: "Sections", icon: "📝", color: "#e67e22" },
+    { label: "Help & Support", icon: "⚙️", color: "#95a5a6" },
     {
   label: "Teacher",
   icon: "👨‍🏫",
@@ -144,6 +146,8 @@ const AdminLayout = () => {
       // Exam
       case "All Exams":
         return <ExamQuestionsOperations/>;
+        case "Help & Support":
+        return <HelpSupport />;
       case "Exam Attempt":
         return <ExamAttemptOperations/>;
       case "Exam Purchase":
