@@ -19,11 +19,7 @@ const HelpSupport = ({ students = [] }) => {
     // =========================================================
 
     const getToken = () => {
-        return (
-            localStorage.getItem("token") ||
-            localStorage.getItem("adminToken") ||
-            sessionStorage.getItem("token")
-        );
+        return localStorage.getItem("token");
     };
 
     // =========================================================
@@ -32,7 +28,7 @@ const HelpSupport = ({ students = [] }) => {
 
     const getConfig = () => ({
         headers: {
-            Authorization: `Bearer ${ getToken() } `,
+            Authorization: `Bearer ${getToken()}`,
             "Content-Type": "application/json",
         },
     });
@@ -51,7 +47,7 @@ const HelpSupport = ({ students = [] }) => {
             setLoadingMessages(true);
 
             const response = await axios.get(
-                `${ API_BASE_URL } /support/admin / ${ student._id } `,
+                `${API_BASE_URL}/support/admin/${student._id}`,
                 getConfig()
             );
 
@@ -68,7 +64,7 @@ const HelpSupport = ({ students = [] }) => {
 
             setError(
                 error.response?.data?.message ||
-                    "Failed to load conversation."
+                "Failed to load conversation."
             );
 
             setMessages([]);
@@ -94,90 +90,83 @@ const HelpSupport = ({ students = [] }) => {
             setSendingReply(true);
             setError("");
 
-            // Last message
             const lastMessage = messages[messages.length - 1];
 
             const supportMessageId = lastMessage._id;
 
             const response = await axios.post(
-                `${ API_BASE_URL } /support/admin / ${ supportMessageId }/reply`,
-{
-    message: reply.trim(),
+                `${API_BASE_URL}/support/admin/${supportMessageId}/reply`,
+                {
+                    message: reply.trim(),
                 },
-getConfig()
+                getConfig()
             );
 
-if (response.data?.success) {
-    setReply("");
+            if (response.data?.success) {
+                setReply("");
 
-    // Reload conversation
-    await getStudentConversation(selectedStudent);
-}
+                await getStudentConversation(selectedStudent);
+            }
         } catch (error) {
-    console.error("Reply error:", error);
+            console.error("Reply error:", error);
 
-    setError(
-        error.response?.data?.message ||
-        "Failed to send reply."
-    );
-} finally {
-    setSendingReply(false);
-}
+            setError(
+                error.response?.data?.message ||
+                "Failed to send reply."
+            );
+        } finally {
+            setSendingReply(false);
+        }
     };
 
-// =========================================================
-// ENTER TO SEND
-// SHIFT + ENTER = NEW LINE
-// =========================================================
+    // =========================================================
+    // ENTER TO SEND
+    // SHIFT + ENTER = NEW LINE
+    // =========================================================
 
-const handleKeyDown = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault();
-        handleReply();
-    }
-};
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            handleReply();
+        }
+    };
 
-// =========================================================
-// FORMAT DATE
-// =========================================================
+    // =========================================================
+    // FORMAT DATE
+    // =========================================================
 
-const formatDate = (date) => {
-    if (!date) return "";
+    const formatDate = (date) => {
+        if (!date) return "";
 
-    return new Date(date).toLocaleString("en-IN", {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-    });
-};
+        return new Date(date).toLocaleString("en-IN", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+        });
+    };
 
-return (
-    <div className="min-h-screen bg-slate-50 p-4 md:p-6">
+    return (
+        <div className="min-h-screen bg-slate-50 p-4 md:p-6">
 
-        {/* =====================================================
-                HEADER
-            ===================================================== */}
+            {/* HEADER */}
 
-        <div className="mb-6">
-            <h1 className="text-2xl md:text-3xl font-bold text-slate-800">
-                Help & Support
-            </h1>
+            <div className="mb-6">
+                <h1 className="text-2xl font-bold text-slate-800 md:text-3xl">
+                    Help & Support
+                </h1>
 
-            <p className="mt-1 text-sm text-slate-500">
-                Manage student support conversations and reply
-                to their queries.
-            </p>
-        </div>
+                <p className="mt-1 text-sm text-slate-500">
+                    Manage student support conversations and reply
+                    to their queries.
+                </p>
+            </div>
 
+            {/* MAIN CONTAINER */}
 
-        {/* =====================================================
-                MAIN CONTAINER
-            ===================================================== */}
-
-        <div
-            className="
+            <div
+                className="
                     flex
                     h-[calc(100vh-150px)]
                     min-h-[600px]
@@ -188,28 +177,28 @@ return (
                     bg-white
                     shadow-sm
                 "
-        >
+            >
 
-            {/* =================================================
+                {/* =================================================
                     LEFT - STUDENTS
                 ================================================= */}
 
-            <div
-                className="
+                <div
+                    className="
                         w-full
-                        md:w-[330px]
-                        lg:w-[360px]
                         flex-shrink-0
                         border-r
                         border-slate-200
                         bg-white
+                        md:w-[330px]
+                        lg:w-[360px]
                     "
-            >
+                >
 
-                {/* Students Header */}
+                    {/* Students Header */}
 
-                <div
-                    className="
+                    <div
+                        className="
                             flex
                             items-center
                             justify-between
@@ -218,19 +207,19 @@ return (
                             px-5
                             py-4
                         "
-                >
-                    <div>
-                        <h2 className="text-lg font-semibold text-slate-800">
-                            Students
-                        </h2>
+                    >
+                        <div>
+                            <h2 className="text-lg font-semibold text-slate-800">
+                                Students
+                            </h2>
 
-                        <p className="text-xs text-slate-400">
-                            Support conversations
-                        </p>
-                    </div>
+                            <p className="text-xs text-slate-400">
+                                Support conversations
+                            </p>
+                        </div>
 
-                    <span
-                        className="
+                        <span
+                            className="
                                 flex
                                 h-8
                                 min-w-8
@@ -243,30 +232,29 @@ return (
                                 font-semibold
                                 text-indigo-600
                             "
-                    >
-                        {students.length}
-                    </span>
-                </div>
+                        >
+                            {students.length}
+                        </span>
+                    </div>
 
+                    {/* Student List */}
 
-                {/* Student List */}
+                    <div className="h-[calc(100%-73px)] overflow-y-auto">
 
-                <div className="h-[calc(100%-73px)] overflow-y-auto">
+                        {loadingStudents ? (
 
-                    {loadingStudents ? (
-
-                        <div className="flex h-full items-center justify-center">
-                            <div className="text-sm text-slate-500">
-                                Loading students...
+                            <div className="flex h-full items-center justify-center">
+                                <div className="text-sm text-slate-500">
+                                    Loading students...
+                                </div>
                             </div>
-                        </div>
 
-                    ) : students.length === 0 ? (
+                        ) : students.length === 0 ? (
 
-                        <div className="flex h-full flex-col items-center justify-center px-5 text-center">
+                            <div className="flex h-full flex-col items-center justify-center px-5 text-center">
 
-                            <div
-                                className="
+                                <div
+                                    className="
                                         mb-3
                                         flex
                                         h-14
@@ -277,35 +265,35 @@ return (
                                         bg-slate-100
                                         text-2xl
                                     "
-                            >
-                                👥
+                                >
+                                    👥
+                                </div>
+
+                                <h3 className="font-semibold text-slate-700">
+                                    No students found
+                                </h3>
+
+                                <p className="mt-1 text-sm text-slate-400">
+                                    There are no students available.
+                                </p>
+
                             </div>
 
-                            <h3 className="font-semibold text-slate-700">
-                                No students found
-                            </h3>
+                        ) : (
 
-                            <p className="mt-1 text-sm text-slate-400">
-                                There are no students available.
-                            </p>
+                            students.map((student) => {
 
-                        </div>
+                                const isSelected =
+                                    selectedStudent?._id === student._id;
 
-                    ) : (
-
-                        students.map((student) => {
-
-                            const isSelected =
-                                selectedStudent?._id === student._id;
-
-                            return (
-                                <button
-                                    key={student._id}
-                                    type="button"
-                                    onClick={() =>
-                                        getStudentConversation(student)
-                                    }
-                                    className={`
+                                return (
+                                    <button
+                                        key={student._id}
+                                        type="button"
+                                        onClick={() =>
+                                            getStudentConversation(student)
+                                        }
+                                        className={`
                                             flex
                                             w-full
                                             items-center
@@ -318,25 +306,25 @@ return (
                                             transition
                                             duration-200
                                             ${isSelected
-                                            ? "bg-indigo-50"
-                                            : "hover:bg-slate-50"
-                                        }
+                                                ? "bg-indigo-50"
+                                                : "hover:bg-slate-50"
+                                            }
                                         `}
-                                >
+                                    >
 
-                                    {/* Avatar */}
+                                        {/* Avatar */}
 
-                                    <div className="relative flex-shrink-0">
+                                        <div className="relative flex-shrink-0">
 
-                                        {student.profileImage ? (
+                                            {student.profileImage ? (
 
-                                            <img
-                                                src={student.profileImage}
-                                                alt={
-                                                    student.fullName ||
-                                                    "Student"
-                                                }
-                                                className="
+                                                <img
+                                                    src={student.profileImage}
+                                                    alt={
+                                                        student.fullName ||
+                                                        "Student"
+                                                    }
+                                                    className="
                                                         h-12
                                                         w-12
                                                         rounded-full
@@ -344,12 +332,12 @@ return (
                                                         ring-2
                                                         ring-white
                                                     "
-                                            />
+                                                />
 
-                                        ) : (
+                                            ) : (
 
-                                            <div
-                                                className="
+                                                <div
+                                                    className="
                                                         flex
                                                         h-12
                                                         w-12
@@ -361,78 +349,68 @@ return (
                                                         font-bold
                                                         text-indigo-600
                                                     "
-                                            >
-                                                {student.fullName
-                                                    ?.charAt(0)
-                                                    ?.toUpperCase() || "S"}
-                                            </div>
+                                                >
+                                                    {student.fullName
+                                                        ?.charAt(0)
+                                                        ?.toUpperCase() || "S"}
+                                                </div>
 
-                                        )}
+                                            )}
 
-                                    </div>
+                                        </div>
 
+                                        {/* Student Info */}
 
-                                    {/* Student Info */}
-
-                                    <div className="min-w-0 flex-1">
-
-                                        <div className="flex items-center justify-between gap-2">
+                                        <div className="min-w-0 flex-1">
 
                                             <h3
                                                 className={`
-                                                        truncate
-                                                        text-sm
-                                                        font-semibold
-                                                        ${isSelected
+                                                    truncate
+                                                    text-sm
+                                                    font-semibold
+                                                    ${isSelected
                                                         ? "text-indigo-700"
                                                         : "text-slate-800"
                                                     }
-                                                    `}
+                                                `}
                                             >
                                                 {student.fullName}
                                             </h3>
 
+                                            <p className="mt-1 truncate text-xs text-slate-500">
+                                                {student.email}
+                                            </p>
+
+                                            {student.mobile && (
+                                                <p className="mt-1 truncate text-xs text-slate-400">
+                                                    {student.mobile}
+                                                </p>
+                                            )}
+
                                         </div>
 
-                                        <p className="mt-1 truncate text-xs text-slate-500">
-                                            {student.email}
-                                        </p>
+                                    </button>
+                                );
+                            })
 
-                                        {student.mobile && (
-                                            <p className="mt-1 truncate text-xs text-slate-400">
-                                                {student.mobile}
-                                            </p>
-                                        )}
+                        )}
 
-                                    </div>
-
-                                </button>
-                            );
-                        })
-
-                    )}
+                    </div>
 
                 </div>
 
-            </div>
-
-
-            {/* =================================================
+                {/* =================================================
                     RIGHT - CHAT
                 ================================================= */}
 
-            <div className="flex min-w-0 flex-1 flex-col bg-slate-50">
+                <div className="flex min-w-0 flex-1 flex-col bg-slate-50">
 
-                {!selectedStudent ? (
+                    {!selectedStudent ? (
 
-                    /* ==========================================
-                        NO STUDENT SELECTED
-                    ========================================== */
+                        <div className="flex flex-1 flex-col items-center justify-center px-6 text-center">
 
-                    <div className="flex flex-1 flex-col items-center justify-center px-6 text-center">
-
-                        <div
-                            className="
+                            <div
+                                className="
                                     mb-5
                                     flex
                                     h-20
@@ -443,32 +421,30 @@ return (
                                     bg-indigo-100
                                     text-4xl
                                 "
-                        >
-                            💬
+                            >
+                                💬
+                            </div>
+
+                            <h2 className="text-xl font-bold text-slate-800">
+                                Select a Student
+                            </h2>
+
+                            <p className="mt-2 max-w-md text-sm text-slate-500">
+                                Select a student from the left side to
+                                view their support conversation and
+                                reply to their queries.
+                            </p>
+
                         </div>
 
-                        <h2 className="text-xl font-bold text-slate-800">
-                            Select a Student
-                        </h2>
+                    ) : (
 
-                        <p className="mt-2 max-w-md text-sm text-slate-500">
-                            Select a student from the left side to
-                            view their support conversation and
-                            reply to their queries.
-                        </p>
+                        <>
 
-                    </div>
+                            {/* CHAT HEADER */}
 
-                ) : (
-
-                    <>
-
-                        {/* =====================================
-                                CHAT HEADER
-                            ===================================== */}
-
-                        <div
-                            className="
+                            <div
+                                className="
                                     flex
                                     items-center
                                     border-b
@@ -477,31 +453,26 @@ return (
                                     px-5
                                     py-4
                                 "
-                        >
+                            >
+                                <div className="flex items-center gap-3">
 
-                            <div className="flex items-center gap-3">
+                                    {selectedStudent.profileImage ? (
 
-                                {selectedStudent.profileImage ? (
-
-                                    <img
-                                        src={
-                                            selectedStudent.profileImage
-                                        }
-                                        alt={
-                                            selectedStudent.fullName
-                                        }
-                                        className="
+                                        <img
+                                            src={selectedStudent.profileImage}
+                                            alt={selectedStudent.fullName}
+                                            className="
                                                 h-11
                                                 w-11
                                                 rounded-full
                                                 object-cover
                                             "
-                                    />
+                                        />
 
-                                ) : (
+                                    ) : (
 
-                                    <div
-                                        className="
+                                        <div
+                                            className="
                                                 flex
                                                 h-11
                                                 w-11
@@ -512,39 +483,32 @@ return (
                                                 font-bold
                                                 text-indigo-600
                                             "
-                                    >
-                                        {selectedStudent.fullName
-                                            ?.charAt(0)
-                                            ?.toUpperCase() || "S"}
+                                        >
+                                            {selectedStudent.fullName
+                                                ?.charAt(0)
+                                                ?.toUpperCase() || "S"}
+                                        </div>
+
+                                    )}
+
+                                    <div>
+                                        <h3 className="font-semibold text-slate-800">
+                                            {selectedStudent.fullName}
+                                        </h3>
+
+                                        <p className="text-xs text-slate-500">
+                                            {selectedStudent.email}
+                                        </p>
                                     </div>
 
-                                )}
-
-                                <div>
-
-                                    <h3 className="font-semibold text-slate-800">
-                                        {selectedStudent.fullName}
-                                    </h3>
-
-                                    <p className="text-xs text-slate-500">
-                                        {selectedStudent.email}
-                                    </p>
-
                                 </div>
-
                             </div>
 
-                        </div>
+                            {/* ERROR */}
 
-
-                        {/* =====================================
-                                ERROR
-                            ===================================== */}
-
-                        {error && (
-
-                            <div
-                                className="
+                            {error && (
+                                <div
+                                    className="
                                         mx-4
                                         mt-3
                                         rounded-lg
@@ -556,35 +520,31 @@ return (
                                         text-sm
                                         text-red-600
                                     "
-                            >
-                                {error}
-                            </div>
+                                >
+                                    {error}
+                                </div>
+                            )}
 
-                        )}
+                            {/* MESSAGES */}
 
-
-                        {/* =====================================
-                                MESSAGES
-                            ===================================== */}
-
-                        <div
-                            className="
+                            <div
+                                className="
                                     flex-1
                                     overflow-y-auto
                                     px-4
                                     py-5
                                     md:px-6
                                 "
-                        >
+                            >
 
-                            {loadingMessages ? (
+                                {loadingMessages ? (
 
-                                <div className="flex h-full items-center justify-center">
+                                    <div className="flex h-full items-center justify-center">
 
-                                    <div className="flex items-center gap-3 text-sm text-slate-500">
+                                        <div className="flex items-center gap-3 text-sm text-slate-500">
 
-                                        <div
-                                            className="
+                                            <div
+                                                className="
                                                     h-5
                                                     w-5
                                                     animate-spin
@@ -593,20 +553,20 @@ return (
                                                     border-slate-200
                                                     border-t-indigo-600
                                                 "
-                                        />
+                                            />
 
-                                        Loading conversation...
+                                            Loading conversation...
+
+                                        </div>
 
                                     </div>
 
-                                </div>
+                                ) : messages.length === 0 ? (
 
-                            ) : messages.length === 0 ? (
+                                    <div className="flex h-full flex-col items-center justify-center text-center">
 
-                                <div className="flex h-full flex-col items-center justify-center text-center">
-
-                                    <div
-                                        className="
+                                        <div
+                                            className="
                                                 mb-4
                                                 flex
                                                 h-16
@@ -618,151 +578,138 @@ return (
                                                 text-2xl
                                                 shadow-sm
                                             "
-                                    >
-                                        💬
+                                        >
+                                            💬
+                                        </div>
+
+                                        <h3 className="font-semibold text-slate-700">
+                                            No messages
+                                        </h3>
+
+                                        <p className="mt-1 text-sm text-slate-400">
+                                            No support conversation found
+                                            for this student.
+                                        </p>
+
                                     </div>
 
-                                    <h3 className="font-semibold text-slate-700">
-                                        No messages
-                                    </h3>
+                                ) : (
 
-                                    <p className="mt-1 text-sm text-slate-400">
-                                        No support conversation found
-                                        for this student.
-                                    </p>
+                                    <div className="mx-auto flex max-w-4xl flex-col gap-4">
 
-                                </div>
+                                        {messages.map((message) => {
 
-                            ) : (
+                                            const isAdmin =
+                                                message.senderType === "Admin";
 
-                                <div className="mx-auto flex max-w-4xl flex-col gap-4">
-
-                                    {messages.map((message) => {
-
-                                        const isAdmin =
-                                            message.senderType === "Admin";
-
-                                        return (
-
-                                            <div
-                                                key={message._id}
-                                                className={`
+                                            return (
+                                                <div
+                                                    key={message._id}
+                                                    className={`
                                                         flex
                                                         ${isAdmin
-                                                        ? "justify-end"
-                                                        : "justify-start"
-                                                    }
+                                                            ? "justify-end"
+                                                            : "justify-start"
+                                                        }
                                                     `}
-                                            >
+                                                >
 
-                                                <div
-                                                    className={`
+                                                    <div
+                                                        className={`
                                                             max-w-[80%]
-                                                            md:max-w-[65%]
                                                             rounded-2xl
                                                             px-4
                                                             py-3
                                                             shadow-sm
+                                                            md:max-w-[65%]
                                                             ${isAdmin
-                                                            ? "rounded-br-md bg-indigo-600 text-white"
-                                                            : "rounded-bl-md bg-white text-slate-800 border border-slate-200"
-                                                        }
+                                                                ? "rounded-br-md bg-indigo-600 text-white"
+                                                                : "rounded-bl-md border border-slate-200 bg-white text-slate-800"
+                                                            }
                                                         `}
-                                                >
+                                                    >
 
-                                                    {/* Sender */}
-
-                                                    <div
-                                                        className={`
+                                                        <div
+                                                            className={`
                                                                 mb-1
                                                                 text-xs
                                                                 font-semibold
                                                                 ${isAdmin
-                                                                ? "text-indigo-100"
-                                                                : "text-indigo-600"
-                                                            }
+                                                                    ? "text-indigo-100"
+                                                                    : "text-indigo-600"
+                                                                }
                                                             `}
-                                                    >
-                                                        {isAdmin
-                                                            ? "Admin"
-                                                            : selectedStudent.fullName}
-                                                    </div>
+                                                        >
+                                                            {isAdmin
+                                                                ? "Admin"
+                                                                : selectedStudent.fullName}
+                                                        </div>
 
-
-                                                    {/* Message */}
-
-                                                    <div
-                                                        className={`
+                                                        <div
+                                                            className={`
                                                                 whitespace-pre-wrap
                                                                 break-words
                                                                 text-sm
                                                                 leading-6
                                                                 ${isAdmin
-                                                                ? "text-white"
-                                                                : "text-slate-700"
-                                                            }
+                                                                    ? "text-white"
+                                                                    : "text-slate-700"
+                                                                }
                                                             `}
-                                                    >
-                                                        {message.message}
-                                                    </div>
+                                                        >
+                                                            {message.message}
+                                                        </div>
 
-
-                                                    {/* Date */}
-
-                                                    <div
-                                                        className={`
+                                                        <div
+                                                            className={`
                                                                 mt-2
                                                                 text-[10px]
                                                                 ${isAdmin
-                                                                ? "text-indigo-200"
-                                                                : "text-slate-400"
-                                                            }
+                                                                    ? "text-indigo-200"
+                                                                    : "text-slate-400"
+                                                                }
                                                             `}
-                                                    >
-                                                        {formatDate(
-                                                            message.createdAt
-                                                        )}
+                                                        >
+                                                            {formatDate(
+                                                                message.createdAt
+                                                            )}
+                                                        </div>
+
                                                     </div>
 
                                                 </div>
+                                            );
+                                        })}
 
-                                            </div>
+                                    </div>
 
-                                        );
-                                    })}
+                                )}
 
-                                </div>
+                            </div>
 
-                            )}
+                            {/* REPLY BOX */}
 
-                        </div>
-
-
-                        {/* =====================================
-                                REPLY BOX
-                            ===================================== */}
-
-                        <div
-                            className="
+                            <div
+                                className="
                                     border-t
                                     border-slate-200
                                     bg-white
                                     p-4
                                 "
-                        >
+                            >
 
-                            <div className="mx-auto flex max-w-4xl items-end gap-3">
+                                <div className="mx-auto flex max-w-4xl items-end gap-3">
 
-                                <textarea
-                                    value={reply}
-                                    onChange={(e) =>
-                                        setReply(e.target.value)
-                                    }
-                                    onKeyDown={handleKeyDown}
-                                    placeholder="Type your reply..."
-                                    disabled={sendingReply}
-                                    rows={3}
-                                    className="
+                                    <textarea
+                                        value={reply}
+                                        onChange={(e) =>
+                                            setReply(e.target.value)
+                                        }
+                                        onKeyDown={handleKeyDown}
+                                        placeholder="Type your reply..."
+                                        disabled={sendingReply}
+                                        rows={3}
+                                        className="
                                             min-h-[80px]
                                             flex-1
                                             resize-none
@@ -784,16 +731,16 @@ return (
                                             disabled:cursor-not-allowed
                                             disabled:opacity-60
                                         "
-                                />
+                                    />
 
-                                <button
-                                    type="button"
-                                    onClick={handleReply}
-                                    disabled={
-                                        sendingReply ||
-                                        !reply.trim()
-                                    }
-                                    className="
+                                    <button
+                                        type="button"
+                                        onClick={handleReply}
+                                        disabled={
+                                            sendingReply ||
+                                            !reply.trim()
+                                        }
+                                        className="
                                             flex
                                             h-11
                                             min-w-[120px]
@@ -812,13 +759,13 @@ return (
                                             disabled:cursor-not-allowed
                                             disabled:bg-slate-300
                                         "
-                                >
-                                    {sendingReply ? (
+                                    >
+                                        {sendingReply ? (
 
-                                        <span className="flex items-center gap-2">
+                                            <span className="flex items-center gap-2">
 
-                                            <span
-                                                className="
+                                                <span
+                                                    className="
                                                         h-4
                                                         w-4
                                                         animate-spin
@@ -827,39 +774,37 @@ return (
                                                         border-white/40
                                                         border-t-white
                                                     "
-                                            />
+                                                />
 
-                                            Sending...
+                                                Sending...
 
-                                        </span>
+                                            </span>
 
-                                    ) : (
+                                        ) : (
+                                            "Send Reply"
+                                        )}
 
-                                        "Send Reply"
+                                    </button>
 
-                                    )}
+                                </div>
 
-                                </button>
+                                <p className="mx-auto mt-2 max-w-4xl text-[11px] text-slate-400">
+                                    Press Enter to send · Shift + Enter
+                                    for a new line
+                                </p>
 
                             </div>
 
-                            <p className="mx-auto mt-2 max-w-4xl text-[11px] text-slate-400">
-                                Press Enter to send · Shift + Enter
-                                for a new line
-                            </p>
+                        </>
 
-                        </div>
+                    )}
 
-                    </>
-
-                )}
+                </div>
 
             </div>
 
         </div>
-
-    </div>
-);
+    );
 };
 
 export default HelpSupport;
