@@ -24,7 +24,7 @@ export default function AdminDashboard() {
 
     try {
       const [attendanceRes, leaveRes] = await Promise.all([
-        fetch(`${API_BASE}/api/teacher/attendancee/admin/dashboard`, {
+        fetch(`${API_BASE}/api/admin/dashboard`, {
           method: "GET",
           headers: authHeaders(),
         }),
