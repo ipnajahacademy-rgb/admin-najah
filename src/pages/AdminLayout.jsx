@@ -19,6 +19,7 @@ import MaintenanceConfig from "../components/Mantaince/MaintenanceConfig";
 import CreateNotification from "../components/Notification/Notification";
 import HelpSupport from "../components/Helpsuport/HelpSupport";
 import FaqOperations from "../components/Faq/FaqOperations";
+import PolicyOperations from "../components/PrivacyPolicy/PolicyOperations";
 
 // Placeholder components for nested sub-items.
 // Replace these with real imports once you build the actual pages,
@@ -141,7 +142,7 @@ const AdminLayout = () => {
         case "Edit FAQ's":
         return <FaqOperations />;
         case "Privacy Policy":
-        return <FaqOperations />;
+        return <PolicyOperations />;
       // Teacher
       case "All Teachers":
         return <AllTeacher />;
