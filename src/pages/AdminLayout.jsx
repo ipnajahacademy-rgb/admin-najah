@@ -20,6 +20,7 @@ import CreateNotification from "../components/Notification/Notification";
 import HelpSupport from "../components/Helpsuport/HelpSupport";
 import FaqOperations from "../components/Faq/FaqOperations";
 import PolicyOperations from "../components/PrivacyPolicy/PolicyOperations";
+import ContactInfoOperations from "../components/ContactInfo/ContactInfoOperations";
 
 // Placeholder components for nested sub-items.
 // Replace these with real imports once you build the actual pages,
@@ -73,8 +74,6 @@ const AdminLayout = () => {
     { label: "Users", icon: "👥", color: "#2ecc71" },
     { label: "Categories", icon: "📂", color: "#9b59b6" },
     { label: "Sections", icon: "📝", color: "#e67e22" },
-    { label: "Edit FAQ's", icon: "✏️", color: "#e67e22" },
-    { label: "Privacy Policy", icon: "🔒", color: "#e67e22" },
     // { label: "Help & Support", icon: "⚙️", color: "#95a5a6" },
     {
   label: "Teacher",
@@ -106,6 +105,11 @@ const AdminLayout = () => {
   color: "#e67e22",
   subItems: ["Get All Live Classes"],
 },
+
+    { label: "Edit FAQ's", icon: "✏️", color: "#e67e22" },
+    { label: "Privacy Policy", icon: "🔒", color: "#e67e22" },
+    { label: "Contact Information", icon: "🔒", color: "#e67e22" },
+
     // { label: "Settings", icon: "⚙️", color: "#95a5a6" },
   ];
 
@@ -143,6 +147,8 @@ const AdminLayout = () => {
         return <FaqOperations />;
         case "Privacy Policy":
         return <PolicyOperations />;
+        case "Contact Information":
+        return <ContactInfoOperations />;
       // Teacher
       case "All Teachers":
         return <AllTeacher />;

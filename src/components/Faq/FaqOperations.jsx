@@ -17,8 +17,6 @@ export default function FaqOperations() {
   const [formQuestion, setFormQuestion] = useState("");
   const [formAnswer, setFormAnswer] = useState("");
   const [formCategory, setFormCategory] = useState("");
-  const [formEmail, setFormEmail] = useState("");
-  const [formPhone, setFormPhone] = useState("");
   const [formIsPublished, setFormIsPublished] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState("");
@@ -95,8 +93,6 @@ export default function FaqOperations() {
     setFormQuestion("");
     setFormAnswer("");
     setFormCategory("");
-    setFormEmail("");
-    setFormPhone("");
     setFormIsPublished(true);
     setFormError("");
     setShowFormModal(true);
@@ -107,8 +103,6 @@ export default function FaqOperations() {
     setFormQuestion(faq.question || "");
     setFormAnswer(faq.answer || "");
     setFormCategory(faq.category || "");
-    setFormEmail(faq.email || "");
-    setFormPhone(faq.phone || "");
     setFormIsPublished(faq.isPublished !== false);
     setFormError("");
     setShowFormModal(true);
@@ -135,8 +129,6 @@ export default function FaqOperations() {
         question: formQuestion.trim(),
         answer: formAnswer.trim(),
         category: formCategory.trim() || "General",
-        email: formEmail.trim(),
-        phone: formPhone.trim(),
         isPublished: formIsPublished,
       };
 
@@ -282,13 +274,6 @@ export default function FaqOperations() {
                   {faq.answer}
                 </p>
 
-                {(faq.email || faq.phone) && (
-                  <div className="mt-2 text-xs text-gray-400 flex flex-col gap-0.5">
-                    {faq.email && <span>✉ {faq.email}</span>}
-                    {faq.phone && <span>☎ {faq.phone}</span>}
-                  </div>
-                )}
-
                 <div className="flex gap-2 mt-3">
                   <button
                     onClick={() => openEditModal(faq)}
@@ -412,34 +397,6 @@ export default function FaqOperations() {
                     />
                     Published
                   </label>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-600 mb-1">
-                    Email (optional)
-                  </label>
-                  <input
-                    type="email"
-                    value={formEmail}
-                    onChange={(e) => setFormEmail(e.target.value)}
-                    placeholder="contact@example.com"
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-300"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-600 mb-1">
-                    Phone (optional)
-                  </label>
-                  <input
-                    type="tel"
-                    value={formPhone}
-                    onChange={(e) => setFormPhone(e.target.value)}
-                    placeholder="+1 234 567 890"
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-300"
-                  />
                 </div>
               </div>
 
