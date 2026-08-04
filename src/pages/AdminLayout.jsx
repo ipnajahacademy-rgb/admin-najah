@@ -18,6 +18,7 @@ import AdminDashboard from "../components/Dashboard/AdminDashboard";
 import MaintenanceConfig from "../components/Mantaince/MaintenanceConfig";
 import CreateNotification from "../components/Notification/Notification";
 import HelpSupport from "../components/Helpsuport/HelpSupport";
+import FaqOperations from "../components/Faq/FaqOperations";
 
 // Placeholder components for nested sub-items.
 // Replace these with real imports once you build the actual pages,
@@ -71,6 +72,8 @@ const AdminLayout = () => {
     { label: "Users", icon: "👥", color: "#2ecc71" },
     { label: "Categories", icon: "📂", color: "#9b59b6" },
     { label: "Sections", icon: "📝", color: "#e67e22" },
+    { label: "Edit FAQ's", icon: "✏️", color: "#e67e22" },
+    { label: "Privacy Policy", icon: "🔒", color: "#e67e22" },
     // { label: "Help & Support", icon: "⚙️", color: "#95a5a6" },
     {
   label: "Teacher",
@@ -135,6 +138,10 @@ const AdminLayout = () => {
       case "Sections":
         return <SectionManager />;
 
+        case "Edit FAQ's":
+        return <FaqOperations />;
+        case "Privacy Policy":
+        return <FaqOperations />;
       // Teacher
       case "All Teachers":
         return <AllTeacher />;
