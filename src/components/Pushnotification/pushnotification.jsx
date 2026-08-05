@@ -29,7 +29,7 @@ export default function NotificationsOperations() {
     };
 
     const authHeaders = () => ({
-        Authorization: `Bearer ${ getToken() } `,
+        Authorization: `Bearer ${getToken()} `,
         "Content-Type": "application/json",
     });
 
@@ -42,7 +42,7 @@ export default function NotificationsOperations() {
 
         try {
             const res = await fetch(
-                `${ API_BASE } /api/teacher / admin / all`,
+                `${API_BASE} /api/teacher/admin/all`,
                 {
                     method: "GET",
                     headers: authHeaders(),
@@ -82,7 +82,7 @@ export default function NotificationsOperations() {
 
         try {
             const res = await fetch(
-                `${ API_BASE } /api/users`,
+                `${API_BASE} /api/users`,
                 {
                     method: "GET",
                     headers: authHeaders(),
@@ -167,11 +167,10 @@ export default function NotificationsOperations() {
 
         if (!selectedUser) {
             setError(
-                `Please select a ${
-    receiverType === "teacher"
-        ? "teacher"
-        : "student"
-} `
+                `Please select a ${receiverType === "teacher"
+                    ? "teacher"
+                    : "student"
+                } `
             );
             return;
         }
@@ -210,7 +209,7 @@ export default function NotificationsOperations() {
             console.log("Sending Push Payload:", payload);
 
             const res = await fetch(
-                `${ API_BASE } /api/notifications / send - push`,
+                `${API_BASE} /api/notifications/send-push`,
                 {
                     method: "POST",
                     headers: authHeaders(),
@@ -229,15 +228,12 @@ export default function NotificationsOperations() {
                 const pushData = data.data || {};
 
                 setSuccess(
-                    `Notification sent successfully to ${
-    selectedUserData.fullName ||
-        selectedUserData.name ||
-        "user"
-}.Success: ${
-    pushData.successCount ?? 0
-}, Failed: ${
-    pushData.failedCount ?? 0
-} `
+                    `Notification sent successfully to ${selectedUserData.fullName ||
+                    selectedUserData.name ||
+                    "user"
+                    }.Success: ${pushData.successCount ?? 0
+                    }, Failed: ${pushData.failedCount ?? 0
+                    } `
                 );
 
                 setSelectedUser("");
@@ -339,11 +335,10 @@ export default function NotificationsOperations() {
                                 onClick={() =>
                                     handleReceiverTypeChange("teacher")
                                 }
-                                className={`border rounded - xl p - 4 text - left transition ${
-    receiverType === "teacher"
-        ? "border-orange-500 bg-orange-50"
-        : "border-gray-300 hover:bg-gray-50"
-} `}
+                                className={`border rounded - xl p - 4 text - left transition ${receiverType === "teacher"
+                                        ? "border-orange-500 bg-orange-50"
+                                        : "border-gray-300 hover:bg-gray-50"
+                                    } `}
                             >
                                 <div className="font-semibold text-gray-800">
                                     👨‍🏫 Teacher
@@ -359,11 +354,10 @@ export default function NotificationsOperations() {
                                 onClick={() =>
                                     handleReceiverTypeChange("student")
                                 }
-                                className={`border rounded - xl p - 4 text - left transition ${
-    receiverType === "student"
-        ? "border-orange-500 bg-orange-50"
-        : "border-gray-300 hover:bg-gray-50"
-} `}
+                                className={`border rounded - xl p - 4 text - left transition ${receiverType === "student"
+                                        ? "border-orange-500 bg-orange-50"
+                                        : "border-gray-300 hover:bg-gray-50"
+                                    } `}
                             >
                                 <div className="font-semibold text-gray-800">
                                     🎓 Student
