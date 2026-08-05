@@ -42,7 +42,7 @@ export default function NotificationsOperations() {
 
         try {
             const res = await fetch(
-                `${API_BASE} /api/teacher/admin/all`,
+                `${API_BASE}/api/teacher/admin/all`,
                 {
                     method: "GET",
                     headers: authHeaders(),
@@ -82,7 +82,7 @@ export default function NotificationsOperations() {
 
         try {
             const res = await fetch(
-                `${API_BASE} /api/users`,
+                `${API_BASE}/api/users`,
                 {
                     method: "GET",
                     headers: authHeaders(),
