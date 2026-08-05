@@ -21,6 +21,7 @@ import HelpSupport from "../components/Helpsuport/HelpSupport";
 import FaqOperations from "../components/Faq/FaqOperations";
 import PolicyOperations from "../components/PrivacyPolicy/PolicyOperations";
 import ContactInfoOperations from "../components/ContactInfo/ContactInfoOperations";
+import NotificationsOperations from "../components/Pushnotification/pushnotification";
 
 // Placeholder components for nested sub-items.
 // Replace these with real imports once you build the actual pages,
@@ -74,6 +75,7 @@ const AdminLayout = () => {
     { label: "Users", icon: "👥", color: "#2ecc71" },
     { label: "Categories", icon: "📂", color: "#9b59b6" },
     { label: "Sections", icon: "📝", color: "#e67e22" },
+    { label: "Push Notifications", icon: "⚙️", color: "#95a5a6" },
     // { label: "Help & Support", icon: "⚙️", color: "#95a5a6" },
     {
   label: "Teacher",
@@ -142,6 +144,8 @@ const AdminLayout = () => {
         return <CreateNotification />;
       case "Sections":
         return <SectionManager />;
+      case "Push Notifications":
+        return <NotificationsOperations />;  
 
         case "Edit FAQ's":
         return <FaqOperations />;
