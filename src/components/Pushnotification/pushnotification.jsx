@@ -29,7 +29,7 @@ export default function NotificationsOperations() {
     };
 
     const authHeaders = () => ({
-        Authorization: `Bearer ${getToken()} `,
+        Authorization: `Bearer ${getToken()}`,
         "Content-Type": "application/json",
     });
 
@@ -209,7 +209,7 @@ export default function NotificationsOperations() {
             console.log("Sending Push Payload:", payload);
 
             const res = await fetch(
-                `${API_BASE} /api/notifications/send-push`,
+                `${API_BASE}/api/notifications/send-push`,
                 {
                     method: "POST",
                     headers: authHeaders(),
@@ -335,7 +335,7 @@ export default function NotificationsOperations() {
                                 onClick={() =>
                                     handleReceiverTypeChange("teacher")
                                 }
-                                className={`border rounded - xl p - 4 text - left transition ${receiverType === "teacher"
+                                className={`border rounded-xl p-4 text-left transition ${receiverType === "teacher"
                                         ? "border-orange-500 bg-orange-50"
                                         : "border-gray-300 hover:bg-gray-50"
                                     } `}
@@ -354,7 +354,7 @@ export default function NotificationsOperations() {
                                 onClick={() =>
                                     handleReceiverTypeChange("student")
                                 }
-                                className={`border rounded - xl p - 4 text - left transition ${receiverType === "student"
+                                className={`border rounded - xl p - 4 text-left transition${receiverType === "student"
                                         ? "border-orange-500 bg-orange-50"
                                         : "border-gray-300 hover:bg-gray-50"
                                     } `}
